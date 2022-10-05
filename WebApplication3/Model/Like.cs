@@ -6,7 +6,7 @@ public class Like
     // one to many
     
     public int Id { get; set; }
-    public bool LikeStatus { get; set; }
-    public User User { get; set; }
-    public int ArticleId { get; set; }
+    public bool? LikeStatus { get; set; }
+    public User? User { get; set; }
+    public int? ArticleId { get; set; }
 }

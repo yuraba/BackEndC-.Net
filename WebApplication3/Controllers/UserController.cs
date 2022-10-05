@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using WebApplication3.Entities;
 using WebApplication3.Model;
@@ -22,6 +23,7 @@ public class UserController: Controller
         return NextUserId;
     }
     [HttpGet("{Id}")]
+    [Authorize]
     public IActionResult Get(int Id)
     {
         var user = _context.Users.SingleOrDefault(p => p.Id == Id);
@@ -35,7 +37,7 @@ public class UserController: Controller
     [HttpPost]
     public async Task<ActionResult<List<User>>> AddUser(User user)
     {
-        user.Id = NextUserId;
+        // user.Id = NextUserId;
         _context.Users.Add(user);
         _context.SaveChanges();
         return CreatedAtAction(nameof(Get), new { id = user.Id }, user);

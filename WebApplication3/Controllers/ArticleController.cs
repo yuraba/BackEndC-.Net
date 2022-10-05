@@ -36,6 +36,7 @@ namespace WebApplication3.Controllers
             
             return Ok(product);
         }
+      
 
         [HttpDelete("{Id}")]
         public IActionResult Delete(int Id)
@@ -59,11 +60,12 @@ namespace WebApplication3.Controllers
             {
                 return BadRequest(ModelState);
             }
-            product.Id = NextProductId;
+            // product.Id = NextProductId;
             _context.Articless.Add(product);
             _context.SaveChanges();
             return CreatedAtAction(nameof(Get), new { id = product.Id }, product);
         }
+        
 
         [HttpPost("AddProduct")]
         public IActionResult PostBody([FromBody] Article product) => Post(product);

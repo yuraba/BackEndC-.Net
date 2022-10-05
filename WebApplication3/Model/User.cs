@@ -13,6 +13,10 @@ public class User
     public byte[]? PasswordSalt { get; set; }
     public string? Email { get; set; } = string.Empty;
     public string? VerificationToken { get; set; }
+    public string RefreshToken { get; set; } = string.Empty;
+    public DateTime TokenCreated { get; set; }
+    public DateTime TokenExpires { get; set; }
+
     [Range(1, 5)] public int? Score { get; set; }
     public ICollection<Coment>? Comments { get; set; }
     public ICollection<Article>? UsersArticles { get; set; } 

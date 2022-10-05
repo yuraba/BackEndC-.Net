@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using WebApplication3.Entities;
 using WebApplication3.Model;
@@ -5,7 +6,9 @@ using WebApplication3.Model;
 namespace WebApplication3.Controllers;
 
     [Route("/comment/[controller]")]
+    [Authorize]
 public class CommentController : Controller
+
 {
     // private static List<Coment> Comments = new List<Coment>(new[]
     //     {

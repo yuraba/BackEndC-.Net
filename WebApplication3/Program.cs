@@ -8,6 +8,16 @@ using WebApplication3.Entities;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+// var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
+// builder.Services.AddCors(options =>
+// {
+//     options.AddDefaultPolicy(
+//         policy =>
+//         {
+//             policy.WithOrigins("*");
+//         });
+// });
+
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -40,7 +50,10 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJw
 builder.Services.AddDbContext<Context>();
 
 var app = builder.Build();
-
+// app.UseCors(x => x
+//             .AllowAnyOrigin()
+//             .AllowAnyMethod()
+//             .AllowAnyHeader())
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
@@ -48,6 +61,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.UseCors();
 app.UseHttpsRedirection();
 
 app.UseAuthentication();
