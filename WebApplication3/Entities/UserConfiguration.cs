@@ -15,17 +15,17 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
             new User
             {
                 Username = "Yura01",
-                Score = 4
+                
             },
             new User
             {
                 Username = "Yura02",
-                Score = 3
+                
             },
             new User
             {
                 Username = "Yura03",
-                Score = 5
+                
             });
         
     }

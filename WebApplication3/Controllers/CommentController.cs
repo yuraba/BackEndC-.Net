@@ -61,7 +61,7 @@ public class CommentController : Controller
             {
                 return BadRequest(ModelState);
             }
-            product.Id = NextProductId;
+            // product.Id = NextProductId;
             _context.Comments.Add(product);
             _context.SaveChanges();
             return CreatedAtAction(nameof(Get), new { id = product.Id }, product);

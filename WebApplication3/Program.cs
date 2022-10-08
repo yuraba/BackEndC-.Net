@@ -8,15 +8,18 @@ using WebApplication3.Entities;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-// var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
-// builder.Services.AddCors(options =>
-// {
-//     options.AddDefaultPolicy(
-//         policy =>
-//         {
-//             policy.WithOrigins("*");
-//         });
-// });
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(name: "ArticleOrigins",
+  
+        policy =>
+        {
+            policy.WithOrigins("*").AllowAnyMethod().AllowAnyHeader();
+        });
+});
+
+
 
 
 builder.Services.AddControllers();
@@ -61,7 +64,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseCors();
+app.UseCors("ArticleOrigins");
 app.UseHttpsRedirection();
 
 app.UseAuthentication();

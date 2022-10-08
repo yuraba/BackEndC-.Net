@@ -53,7 +53,7 @@ public class UserController: Controller
         }
 
         user.Username = request.Username;
-        user.Email = request.Email;
+        
         _context.SaveChanges();
         return CreatedAtAction(nameof(Get), new { id = user.Id }, user);
         // return Ok();

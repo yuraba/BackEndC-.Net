@@ -12,7 +12,7 @@ public class Context : DbContext
     }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) =>
-        optionsBuilder.UseSqlServer(@"Server=localhost,1433;Database=blogdb;User Id=sa;Password=@978w0rD;Encrypt=false;TrustServerCertificate=True;");
+        optionsBuilder.UseSqlServer(@"Server=localhost,1433;Database=blog;User Id=sa;Password=@978w0rD;Encrypt=false;TrustServerCertificate=True;");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -23,7 +23,7 @@ public class Context : DbContext
         
     }
     public DbSet<User> Users { get; set; }
-    public DbSet<Article> Articless { get; set; }
+    public DbSet<Article> Articles { get; set; }
     public DbSet<Coment> Comments { get; set; }
     public DbSet<Like> Likes { get; set; }
 }
