@@ -7,13 +7,13 @@ public class Article
 {
     public int Id { get; set; }
     
-    public DateTime Created { get; set; } = DateTime.Now;
+    // public DateTime Created { get; set; } = DateTime.Now;
     
-    [Required]
+    
     [StringLength(50, MinimumLength = 3)]
-    public string Title { get; set; } = "";
+    public string? Title { get; set; } = "";
 
-    [Required] public string Body { get; set; } = "";
+    public string? Body { get; set; } = "";
     
     public string? Image { get; set; }
     

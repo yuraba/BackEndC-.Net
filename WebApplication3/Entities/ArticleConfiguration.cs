@@ -17,13 +17,13 @@ public class ArticleConfiguration : IEntityTypeConfiguration<Article>
         builder.HasData(
             new Article
             {
-                Created = DateTime.Now,
+                
                 Title = "My first article :)",
                 Body = "I want to tell you about ...",
             },
             new Article
             {
-                Created = DateTime.Now,
+                
                 Title = "Relationship important or no",
                 Body = "I want to tell you about ...",
                 
@@ -31,7 +31,7 @@ public class ArticleConfiguration : IEntityTypeConfiguration<Article>
             },
             new Article
             {
-                Created = DateTime.Now,
+                
                 Title = "My experience in IT",
                 Body = "I want to tell you about ...",
                

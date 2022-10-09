@@ -68,7 +68,7 @@ namespace WebApplication3.Controllers
         {
             if (!ModelState.IsValid)
             {
-                return BadRequest(ModelState);
+                // return BadRequest(ModelState);
             }
             
             _context.Articles.Add(product);

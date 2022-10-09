@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using WebApplication3.Model;
 using WebApplication3.Registration.DTO;
-using WebApplication3.Registration.Services;
+
 
 namespace WebApplication3.Registration.Controller;
 
@@ -16,21 +16,21 @@ public class AuthController : ControllerBase
 {
     public static User user = new User();
     private readonly IConfiguration _configuration;
-    private readonly IUserService _userService;
+    // private readonly IUserService _userService;
 
 
-    public AuthController(IConfiguration configuration, IUserService userService)
+    public AuthController(IConfiguration configuration)
     {
         _configuration = configuration;
-        _userService = userService;
+        // _userService = userService;
     }
 
-    [HttpGet, Authorize]
-    public ActionResult<string> GetMe()
-    {
-        var userName = _userService.GetMyName();
-        return Ok(userName);
-    }
+    // [HttpGet, Authorize]
+    // public ActionResult<string> GetMe()
+    // {
+    //     var userName = _userService.GetMyName();
+    //     return Ok(userName);
+    // }
 
 
     [HttpPost("register")]
