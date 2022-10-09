@@ -67,7 +67,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseCors("ArticleOrigins");
-app.UseHttpsRedirection();
+// app.UseHttpsRedirection();
 
 app.UseAuthentication();
 

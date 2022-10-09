@@ -64,11 +64,11 @@ namespace WebApplication3.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<List<Article>>> Post(Article product)
+        public async Task<ActionResult<List<Article>>> Post([FromBody]Article product)
         {
             if (!ModelState.IsValid)
             {
-                // return BadRequest(ModelState);
+                return BadRequest(ModelState);
             }
             
             _context.Articles.Add(product);
@@ -81,7 +81,7 @@ namespace WebApplication3.Controllers
         // public async Task<ActionResult> PostBody([FromBody] Article product) => Post(product);
 
         [HttpPut]
-        public async Task<ActionResult<List<Article>>> Put(Article product)
+        public async Task<ActionResult<List<Article>>> Put([FromBody]Article product)
         {
             var art = await _context.Articles.FindAsync(product.Id);
             if (art == null)
@@ -89,9 +89,9 @@ namespace WebApplication3.Controllers
                 return BadRequest("Articles not found");
             }
 
-            art.Title = product.Title;
-            art.Body = product.Body;
-            art.Image = product.Image;
+            art.title = product.title;
+            art.body = product.body;
+            art.image = product.image;
 
             await _context.SaveChangesAsync();
             return Ok();

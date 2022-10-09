@@ -18,22 +18,22 @@ public class ArticleConfiguration : IEntityTypeConfiguration<Article>
             new Article
             {
                 
-                Title = "My first article :)",
-                Body = "I want to tell you about ...",
+                title = "My first article :)",
+                body = "I want to tell you about ...",
             },
             new Article
             {
                 
-                Title = "Relationship important or no",
-                Body = "I want to tell you about ...",
+                title = "Relationship important or no",
+                body = "I want to tell you about ...",
                 
               
             },
             new Article
             {
                 
-                Title = "My experience in IT",
-                Body = "I want to tell you about ...",
+                title = "My experience in IT",
+                body = "I want to tell you about ...",
                
            
             });

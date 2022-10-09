@@ -10,12 +10,12 @@ public class Article
     // public DateTime Created { get; set; } = DateTime.Now;
     
     
-    [StringLength(50, MinimumLength = 3)]
-    public string? Title { get; set; } = "";
+  
+    public string? title { get; set; } = "";
 
-    public string? Body { get; set; } = "";
+    public string? body { get; set; } = "";
     
-    public string? Image { get; set; }
+    public string? image { get; set; }
     
    
     public ICollection<User>? Users { get; set; }
