@@ -13,6 +13,7 @@ public class UserController: Controller
     {
         _context = context;
     }
+    
     [HttpGet]
     public IEnumerable<User> Get() => _context.Users;
     private int NextUserId => _context.Users.Local.Count == 0 ? 1 : _context.Users.Max(i => i.Id) + 1;

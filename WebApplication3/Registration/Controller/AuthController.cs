@@ -4,8 +4,10 @@ using System.Security.Cryptography;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
+using WebApplication3.Entities;
 using WebApplication3.Model;
 using WebApplication3.Registration.DTO;
+
 
 
 namespace WebApplication3.Registration.Controller;
@@ -14,16 +16,20 @@ namespace WebApplication3.Registration.Controller;
 [ApiController]
 public class AuthController : ControllerBase
 {
+    private readonly Context _context;
+    
     public static User user = new User();
     private readonly IConfiguration _configuration;
     // private readonly IUserService _userService;
 
 
-    public AuthController(IConfiguration configuration)
+    public AuthController(IConfiguration configuration,Context context)
     {
         _configuration = configuration;
+        _context = context;
         // _userService = userService;
     }
+    
 
     // [HttpGet, Authorize]
     // public ActionResult<string> GetMe()
@@ -41,7 +47,8 @@ public class AuthController : ControllerBase
             user.Username = request.Username;
             user.PasswordHash = passwordHash;
             user.PasswordSalt = passwordSalt;
-            
+            _context.Users.Add(user);
+            _context.SaveChanges();
             return Ok(user);
         
     }
@@ -84,7 +91,7 @@ public class AuthController : ControllerBase
         
         var refreshToken = GenerateRefreshToken();
         SetRefreshToken(refreshToken);
-        
+        _context.SaveChanges();
         return Ok(token);
     }
 

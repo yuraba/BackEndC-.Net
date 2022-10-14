@@ -80,7 +80,7 @@ namespace WebApplication3.Controllers
         // [HttpPost("AddProduct")]
         // public async Task<ActionResult> PostBody([FromBody] Article product) => Post(product);
 
-        [HttpPut]
+        [HttpPut("{Id}")]
         public async Task<ActionResult<List<Article>>> Put([FromBody]Article product)
         {
             var art = await _context.Articles.FindAsync(product.Id);

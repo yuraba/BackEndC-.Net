@@ -6,6 +6,7 @@ using Swashbuckle.AspNetCore.Filters;
 using WebApplication3.Entities;
 
 
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -52,6 +53,9 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJw
     };
 });
 // builder.Services.AddScoped<IUserService, UserService>();
+
+
+
 builder.Services.AddDbContext<Context>();
 
 var app = builder.Build();
