@@ -4,6 +4,7 @@ using System.Security.Cryptography;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.VisualBasic.CompilerServices;
 using WebApplication3.Entities;
 using WebApplication3.Model;
 using WebApplication3.Registration.DTO;
@@ -38,7 +39,6 @@ public class AuthController : ControllerBase
     //     return Ok(userName);
     // }
 
-
     [HttpPost("register")]
     public async Task<ActionResult<User>> Register(UserDto request)
     {
@@ -47,6 +47,7 @@ public class AuthController : ControllerBase
             user.Username = request.Username;
             user.PasswordHash = passwordHash;
             user.PasswordSalt = passwordSalt;
+            user.Role = request.Role;
             _context.Users.Add(user);
             _context.SaveChanges();
             return Ok(user);
@@ -57,8 +58,9 @@ public class AuthController : ControllerBase
     {
         List<Claim> claims = new List<Claim>
         {
-            new Claim(ClaimTypes.Name, user.Username),
-            new Claim(ClaimTypes.Role, "Admin")
+            new Claim( "username",user.Username),
+            new Claim("role", user.Role),
+            new Claim("user_id", $"{user.Id}")
         };
         var key = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(_configuration.GetSection("AppSettings:Token").Value));
 

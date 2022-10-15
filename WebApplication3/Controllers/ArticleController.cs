@@ -40,6 +40,13 @@ namespace WebApplication3.Controllers
             
             return Ok(product);
         }
+        
+        [HttpGet("/user/{name}")]
+        public  async Task<ActionResult<List<Article>>> Get(string name)
+        {
+            var a = await _context.Articles.Where(p => p.CreatedBy == name).ToListAsync();
+            return Ok( a  );
+        }
       
 
         [HttpDelete("{Id}")]
@@ -81,7 +88,7 @@ namespace WebApplication3.Controllers
         // public async Task<ActionResult> PostBody([FromBody] Article product) => Post(product);
 
         [HttpPut("{Id}")]
-        public async Task<ActionResult<List<Article>>> Put([FromBody]Article product)
+        public async Task<ActionResult<List<Article>>> bm([FromBody]Article product)
         {
             var art = await _context.Articles.FindAsync(product.Id);
             if (art == null)
@@ -92,6 +99,7 @@ namespace WebApplication3.Controllers
             art.title = product.title;
             art.body = product.body;
             art.image = product.image;
+            art.IsApproved = product.IsApproved;
 
             await _context.SaveChangesAsync();
             return Ok();
