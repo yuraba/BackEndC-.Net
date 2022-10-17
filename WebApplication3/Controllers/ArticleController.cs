@@ -23,16 +23,24 @@ namespace WebApplication3.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<List<Article>>> Get()
+        public async Task<ActionResult<List<Article>>> Get(CancellationToken cancellationToken = default)
         {
+            if (cancellationToken.IsCancellationRequested)
+            {
+                return Ok("Action was cancelled");
+            }
             return Ok(await _context.Articles.ToListAsync());
         }
 
 
         [HttpGet("{Id}")]
-        public IActionResult Get(int Id)
+        public IActionResult Get(int Id, CancellationToken cancellationToken = default)
         {
             var product = _context.Articles.SingleOrDefault(p => p.Id == Id);
+            if (cancellationToken.IsCancellationRequested)
+            {
+                return Ok("Action was cancelled");
+            }
             if (product==null)
             {
                 return NotFound();
@@ -42,10 +50,14 @@ namespace WebApplication3.Controllers
         }
         
         [HttpGet("/user/{name}")]
-        public  async Task<ActionResult<List<Article>>> Get(string name)
+        public  async Task<ActionResult<List<Article>>> Get(string name, CancellationToken cancellationToken = default)
         {
             var a = await _context.Articles.Where(p => p.CreatedBy == name).ToListAsync();
-            return Ok( a  );
+            if (cancellationToken.IsCancellationRequested)
+            {
+                return Ok("Action was cancelled");
+            }
+            return Ok(a);
         }
       
 

@@ -24,28 +24,23 @@ public class UserController: Controller
         return NextUserId;
     }
     [HttpGet("{Id}")]
-    [Authorize]
     public IActionResult Get(int Id)
     {
         var user = _context.Users.SingleOrDefault(p => p.Id == Id);
-        if (user==null)
-        {
-            return NotFound();
-        }
-            
+
         return Ok(user);
     }
-    [HttpPost]
-    public async Task<ActionResult<List<User>>> AddUser(User user)
-    {
-        // user.Id = NextUserId;
-        _context.Users.Add(user);
-        _context.SaveChanges();
-        return CreatedAtAction(nameof(Get), new { id = user.Id }, user);
-        // return Ok();
-    }
+    // [HttpPost]
+    // public async Task<ActionResult<List<User>>> AddUser(User user)
+    // {
+    //     // user.Id = NextUserId;
+    //     // _context.Users.Add(user);
+    //     // _context.SaveChanges();
+    //     // return CreatedAtAction(nameof(Get), new { id = user.Id }, user);
+    //     // return Ok();
+    // }
     [HttpPut]
-    public async Task<ActionResult<List<User>>> UpdateUser(User request)
+    public async Task<ActionResult<List<User>>> UpdateUser([FromBody] User request)
     {
         var user = _context.Users.SingleOrDefault(p => p.Id == request.Id);
         if (user==null)
@@ -54,6 +49,7 @@ public class UserController: Controller
         }
 
         user.Username = request.Username;
+        user.image = request.image;
         
         _context.SaveChanges();
         return CreatedAtAction(nameof(Get), new { id = user.Id }, user);

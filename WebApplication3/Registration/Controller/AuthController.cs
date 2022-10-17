@@ -19,7 +19,6 @@ public class AuthController : ControllerBase
 {
     private readonly Context _context;
     
-    public static User user = new User();
     private readonly IConfiguration _configuration;
     // private readonly IUserService _userService;
 
@@ -42,15 +41,23 @@ public class AuthController : ControllerBase
     [HttpPost("register")]
     public async Task<ActionResult<User>> Register(UserDto request)
     {
+        
+        var customer = new User();
+        var ExistUser = _context.Users.SingleOrDefault(p => p.Username == request.Username);
+        if (ExistUser != null)
+        {
+            return BadRequest("User is Exist");
+        }
+
         CreatePasswordHash(request.Password, out byte[] passwordHash, out byte[] passwordSalt);
         
-            user.Username = request.Username;
-            user.PasswordHash = passwordHash;
-            user.PasswordSalt = passwordSalt;
-            user.Role = request.Role;
-            _context.Users.Add(user);
-            _context.SaveChanges();
-            return Ok(user);
+        customer.Username = request.Username;
+        customer.PasswordHash = passwordHash;
+        customer.PasswordSalt = passwordSalt;
+        customer.Role = request.Role;
+            _context.Users.Add(customer);
+            await _context.SaveChangesAsync();
+            return Ok(customer);
         
     }
 
@@ -80,39 +87,42 @@ public class AuthController : ControllerBase
     [HttpPost("login")]
     public async Task<ActionResult<string>> Login(UserDto request)
     {
-        if (user.Username != request.Username)
+        var customer = _context.Users.SingleOrDefault(p => p.Username == request.Username);
+        if (customer == null)
         {
             return BadRequest("User not found");
         }
 
-        if (!VerifyPasswordHash(request.Password, user.PasswordHash, user.PasswordSalt))
+        if (!VerifyPasswordHash(request.Password, customer.PasswordHash, customer.PasswordSalt))
         {
             return BadRequest("Wrong password");
         }
-        string token = CreateToken(user);
+        string token = CreateToken(customer);
         
         var refreshToken = GenerateRefreshToken();
-        SetRefreshToken(refreshToken);
+        SetRefreshToken(refreshToken, request);
         _context.SaveChanges();
         return Ok(token);
     }
 
     [HttpPost("refresh-token")]
-    public async Task<ActionResult<string>> RefreshToken()
+    public async Task<ActionResult<string>> RefreshToken(UserDto request)
     {
+        var customer = _context.Users.SingleOrDefault(p => p.Username == request.Username);
+
         var refreshToken = Request.Cookies["refreshToken"];
-        if (!user.RefreshToken.Equals(refreshToken))
+        if (!customer.RefreshToken.Equals(refreshToken))
         {
             return Unauthorized("Invalid Refresh token");
         }
-        else if (user.TokenExpires < DateTime.Now)
+        else if (customer.TokenExpires < DateTime.Now)
         {
             return Unauthorized("Token expired");
         }
 
-        string token = CreateToken(user);
+        string token = CreateToken(customer);
         var newRefreshToken = GenerateRefreshToken();
-        SetRefreshToken(newRefreshToken);
+        SetRefreshToken(newRefreshToken,request );
 
         return Ok(token);
     }
@@ -129,17 +139,19 @@ public class AuthController : ControllerBase
         return refreshToken;
     }
 
-    private void SetRefreshToken(RefreshToken newRefreshToken)
+    private void SetRefreshToken(RefreshToken newRefreshToken,UserDto request)
     {
+        var customer = _context.Users.SingleOrDefault(p => p.Username == request.Username);
+
         var cookieOptions = new CookieOptions
         {
             HttpOnly = true,
             Expires = newRefreshToken.Expires
         };
         Response.Cookies.Append("refreshToken", newRefreshToken.Token, cookieOptions);
-        user.RefreshToken = newRefreshToken.Token;
-        user.TokenCreated = newRefreshToken.Created;
-        user.TokenExpires = newRefreshToken.Expires;
+        customer.RefreshToken = newRefreshToken.Token;
+        customer.TokenCreated = newRefreshToken.Created;
+        customer.TokenExpires = newRefreshToken.Expires;
     }
     
     
